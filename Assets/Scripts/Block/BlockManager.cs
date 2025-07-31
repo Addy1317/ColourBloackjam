@@ -59,7 +59,7 @@ namespace SlowpokeStudio.Block
             foreach (var offset in shapeOffsets)
             {
                 Vector2Int cell = shapeData.origin + offset;
-                Vector3 worldPos = gridManager.GetWorldPosition(cell.x, cell.y);
+                Vector3 worldPos = gridManager.GetWorldPosition(cell.y, cell.x);
 
                 GameObject tile = Instantiate(tilePrefab, worldPos, Quaternion.identity, blockGO.transform);
                 tile.transform.localScale = Vector3.one * 0.9f;

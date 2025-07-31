@@ -1624,10 +1624,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gridManager: {fileID: 1741450679}
   tilePrefab: {fileID: 5794858281074021325, guid: 6dee0a51948e07e47b3eb1ebccab5529, type: 3}
-  levelsDatabase: {fileID: 11400000, guid: ec0ddc6fc3298194d92f4888e5b6fac9, type: 2}
+  levelsDatabase: {fileID: 11400000, guid: 6b5b5ef41e84b6f43a7048ebc3b8b72e, type: 2}
   currentLevelIndex: 0
   blockContainer: {fileID: 1117212687}
-  defaultBlockMaterial: {fileID: 2100000, guid: ac330ae001fe07149901b770a2cc9f86, type: 2}
+  defaultBlockMaterial: {fileID: 2100000, guid: 440edfab25925764a88edb9fe049f143, type: 2}
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
@@ -3335,8 +3335,8 @@ GameObject:
   - component: {fileID: 1741450681}
   - component: {fileID: 1741450680}
   - component: {fileID: 1741450679}
-  - component: {fileID: 1741450683}
   - component: {fileID: 1741450678}
+  - component: {fileID: 1741450683}
   m_Layer: 0
   m_Name: GridManager
   m_TagString: Untagged
@@ -3483,7 +3483,7 @@ MonoBehaviour:
   cellSize: 1
   originPosition: {x: -5, y: 0}
   showGizmos: 1
-  gridColor: {r: 0, g: 0.10449934, b: 1, a: 1}
+  gridColor: {r: 0, g: 0.1404357, b: 1, a: 1}
   occupiedColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!64 &1741450680
 MeshCollider:
@@ -3577,7 +3577,7 @@ MonoBehaviour:
   cellSize: 1
   origin: {x: -5, y: 0}
   lineMaterial: {fileID: 2100000, guid: 440edfab25925764a88edb9fe049f143, type: 2}
-  lineWidth: 0.015
+  lineWidth: 0.02
 --- !u!1 &1776705632
 GameObject:
   m_ObjectHideFlags: 0

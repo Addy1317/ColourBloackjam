@@ -59,7 +59,7 @@ namespace SlowpokeStudio.Block
             foreach (var offset in shapeOffsets)
             {
                 Vector2Int cell = shapeData.origin + offset;
-                Vector3 worldPos = gridManager.GetWorldPosition(cell.y, cell.x);
+                Vector3 worldPos = gridManager.GetWorldPosition(cell.x, cell.y);
 
                 GameObject tile = Instantiate(tilePrefab, worldPos, Quaternion.identity, blockGO.transform);
                 tile.transform.localScale = Vector3.one * 0.9f;
@@ -75,7 +75,10 @@ namespace SlowpokeStudio.Block
                 }
 
                 gridManager.SetCell(cell.x, cell.y, true);
-                Debug.DrawRay(worldPos, Vector3.up, Color.cyan, 1f);
+                Debug.DrawRay(worldPos, Vector3.forward * 0.5f, Color.magenta, 5f);
+                Debug.Log($"Spawning Tile at Grid ({cell.x}, {cell.y}) → World {worldPos}");
+
+                //Debug.DrawRay(worldPos, Vector3.up, Color.cyan, 1f);
             }
 
             blockGO.transform.position = gridManager.GetWorldPosition(shapeData.origin.x, shapeData.origin.y);

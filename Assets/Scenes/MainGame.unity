@@ -3481,7 +3481,7 @@ MonoBehaviour:
   rows: 10
   columns: 10
   cellSize: 1
-  originPosition: {x: -5, y: 0}
+  originPosition: {x: 0, y: 0}
   showGizmos: 1
   gridColor: {r: 0, g: 0.1404357, b: 1, a: 1}
   occupiedColor: {r: 1, g: 0, b: 0, a: 1}
@@ -3575,7 +3575,7 @@ MonoBehaviour:
   rows: 10
   columns: 10
   cellSize: 1
-  origin: {x: -5, y: 0}
+  origin: {x: 0, y: 0}
   lineMaterial: {fileID: 2100000, guid: 440edfab25925764a88edb9fe049f143, type: 2}
   lineWidth: 0.02
 --- !u!1 &1776705632

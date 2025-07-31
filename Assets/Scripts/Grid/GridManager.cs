@@ -37,18 +37,25 @@ namespace SlowpokeStudio.Grid
 
         public Vector2Int GetGridPosition(Vector2 worldPosition)
         {
-            int col = Mathf.FloorToInt((worldPosition.x - originPosition.x) / cellSize);
-            int row = Mathf.FloorToInt((worldPosition.y - originPosition.y) / cellSize);
-            return new Vector2Int(row, col);
+            int x = Mathf.FloorToInt((worldPosition.x - originPosition.x) / cellSize);
+            int y = rows - 1 - Mathf.FloorToInt((worldPosition.y - originPosition.y) / cellSize);
+            return new Vector2Int(x, y);
         }
 
-        public Vector2 GetWorldPosition(int row, int col)
+        public Vector2 GetWorldPosition(int x, int y)
         {
-            float x = originPosition.x + (col * cellSize) + cellSize / 2f;
-            float y = originPosition.y + (row * cellSize) + cellSize / 2f;
-            return new Vector2(x, y);
+            float worldX = originPosition.x + (x * cellSize) + cellSize / 2f; // coloum
+            float worldY = originPosition.y + ((rows - 1 - y) * cellSize) + cellSize / 2f; // row
+            return new Vector2(worldX, worldY);
         }
 
+        public Vector2 GetWorldPosition(Vector2Int gridPos)
+        {
+            return GetWorldPosition(gridPos.x, gridPos.y);
+        }
+
+
+        //float y = originPosition.y + (row * cellSize) + cellSize / 2f;
         public bool IsCellOccupied(int row, int col)
         {
             if (!IsInBounds(row, col)) return true;

@@ -59,10 +59,10 @@ namespace SlowpokeStudio.Block
             foreach (var offset in shapeOffsets)
             {
                 Vector2Int cell = shapeData.origin + offset;
-                Vector3 worldPos = gridManager.GetWorldPosition(cell.x, cell.y);
+                Vector3 worldPos = gridManager.GetWorldPosition(cell);
 
-                GameObject tile = Instantiate(tilePrefab, worldPos, Quaternion.identity, blockGO.transform);
-                tile.transform.localScale = Vector3.one * 0.9f;
+                GameObject tile = Instantiate(tilePrefab, worldPos, Quaternion.identity, blockContainer); // parented to global manager
+                tile.transform.localScale = Vector3.one * 0.95f;
 
                 if (!tile.TryGetComponent<Collider>(out _))
                 {

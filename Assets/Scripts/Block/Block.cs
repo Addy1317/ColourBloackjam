@@ -30,6 +30,7 @@ namespace SlowpokeStudio.ColourBlocks
                 gridManager.SetCell(pos.x, pos.y, false); // Free cell
             }
         }
+        
         internal bool CanMoveTo(Vector2Int newOrigin)
         {
             foreach (var offset in shapeOffsets)
@@ -71,7 +72,6 @@ namespace SlowpokeStudio.ColourBlocks
                 Gizmos.DrawWireCube(gridManager.GetWorldPosition(pos.x, pos.y), Vector3.one * 0.95f);
             }
         }
-
     }
 }
 

@@ -44,46 +44,8 @@ namespace SlowpokeStudio.ColourBlocks
                 SpawnBlock(shapeData);
             }
         }
+
         #region Block Spawning Methods
-
-       /* private void SpawnBlock(BlockShapeData shapeData)
-        {
-            Vector2Int[] shapeOffsets = BlockShapeLibrary.GetShapeOffsets(shapeData.blockShapeType);
-
-            GameObject blockGO = new GameObject($"Block_{shapeData.color}");
-            blockGO.transform.SetParent(blockContainer);
-
-            Block block = blockGO.AddComponent<Block>();
-
-            block.Initialize(shapeData.color, shapeData.origin, shapeOffsets, gridManager);
-
-            foreach (var offset in shapeOffsets)
-            {
-                Vector2Int cell = shapeData.origin + offset;
-                Vector3 worldPos = gridManager.GetWorldPosition(cell);
-
-                GameObject tile = Instantiate(tilePrefab, worldPos, Quaternion.identity, blockContainer); // parented to global manager
-                tile.transform.localScale = Vector3.one * 0.95f;
-
-                if (!tile.TryGetComponent<Collider>(out _))
-                {
-                    tile.AddComponent<BoxCollider>();
-                }
-
-                if (tile.TryGetComponent(out MeshRenderer mr))
-                {
-                    mr.material.color = GetColor(shapeData.color);
-                }
-
-                gridManager.SetCell(cell.x, cell.y, true);
-                Debug.DrawRay(worldPos, Vector3.forward * 0.5f, Color.magenta, 5f);
-                Debug.Log($"Spawning Tile at Grid ({cell.x}, {cell.y}) → World {worldPos}");
-
-                //Debug.DrawRay(worldPos, Vector3.up, Color.cyan, 1f);
-            }
-
-            blockGO.transform.position = gridManager.GetWorldPosition(shapeData.origin.x, shapeData.origin.y);
-        }*/
 
         private void SpawnBlock(BlockShapeData shapeData)
         {

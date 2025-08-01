@@ -2,7 +2,7 @@ using SlowpokeStudio.Grid;
 using SlowpokeStudio.levelData;
 using UnityEngine;
 
-namespace SlowpokeStudio.Block
+namespace SlowpokeStudio.ColourBlocks
 {
     public class BlockSpawnManager : MonoBehaviour
     {

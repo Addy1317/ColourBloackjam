@@ -1,7 +1,7 @@
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
-using SlowpokeStudio.Block;
+using SlowpokeStudio.ColourBlocks;
 using UnityEngine;
 
 namespace SlowpokeStudio.levelData

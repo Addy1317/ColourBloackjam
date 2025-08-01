@@ -1,21 +1,18 @@
 using SlowpokeStudio.Grid;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
-namespace SlowpokeStudio.Block
+namespace SlowpokeStudio.ColourBlocks
 {
-    public class Block : MonoBehaviour, IPointerDownHandler, IDragHandler, IEndDragHandler
+    public class Block : MonoBehaviour
     {
         [Header("Injected Data")]
-        public BlockColor blockColor;
-        public Vector2Int gridOrigin;
-        public Vector2Int[] shapeOffsets;
+        [SerializeField] internal BlockColor blockColor;
+        [SerializeField] internal Vector2Int gridOrigin;
+        [SerializeField] internal Vector2Int[] shapeOffsets;
 
         private GridManager gridManager;
-        private bool isDragging;
-        private Vector3 offset;
 
-        public void Initialize(BlockColor color, Vector2Int origin, Vector2Int[] offsets, GridManager gridRef)
+        internal void Initialize(BlockColor color, Vector2Int origin, Vector2Int[] offsets, GridManager gridRef)
         {
             blockColor = color;
             gridOrigin = origin;
@@ -25,54 +22,15 @@ namespace SlowpokeStudio.Block
             Debug.Log($"[Block] Initialized at {gridOrigin} with shape {offsets.Length} tiles.");
         }
 
-        public void OnPointerDown(PointerEventData eventData)
+        internal void PrepareForMove()
         {
-            isDragging = true;
-            offset = transform.position - GetMouseWorldPosition(eventData);
-
             foreach (var offset in shapeOffsets)
             {
-                var pos = gridOrigin + offset;
-                gridManager.SetCell(pos.x, pos.y, false);
-                Debug.DrawRay(gridManager.GetWorldPosition(pos.x, pos.y), Vector3.up, Color.yellow, 0.5f);
+                Vector2Int pos = gridOrigin + offset;
+                gridManager.SetCell(pos.x, pos.y, false); // Free cell
             }
         }
-
-        public void OnDrag(PointerEventData eventData)
-        {
-            if (!isDragging) return;
-
-            Vector3 mouseWorldPos = GetMouseWorldPosition(eventData) + offset;
-            Vector2Int targetOrigin = gridManager.GetGridPosition(mouseWorldPos);
-
-            if (targetOrigin != gridOrigin && CanMoveTo(targetOrigin))
-            {
-                gridOrigin = targetOrigin;
-                transform.position = gridManager.GetWorldPosition(gridOrigin.x, gridOrigin.y);
-                Debug.Log($"[Block] Moved to new gridOrigin: {gridOrigin}");
-            }
-        }
-
-        public void OnEndDrag(PointerEventData eventData)
-        {
-            isDragging = false;
-
-            foreach (var offset in shapeOffsets)
-            {
-                var pos = gridOrigin + offset;
-                gridManager.SetCell(pos.x, pos.y, true);
-                Debug.DrawRay(gridManager.GetWorldPosition(pos.x, pos.y), Vector3.up * 0.5f, Color.green, 1f);
-            }
-        }
-
-        private Vector3 GetMouseWorldPosition(PointerEventData eventData)
-        {
-            Vector3 screenPoint = eventData.position;
-            screenPoint.z = Camera.main.WorldToScreenPoint(transform.position).z;
-            return Camera.main.ScreenToWorldPoint(screenPoint);
-        }
-
-        private bool CanMoveTo(Vector2Int newOrigin)
+        internal bool CanMoveTo(Vector2Int newOrigin)
         {
             foreach (var offset in shapeOffsets)
             {
@@ -86,9 +44,20 @@ namespace SlowpokeStudio.Block
             return true;
         }
 
-        private void OnMouseDown()
+        internal void MoveTo(Vector2Int newOrigin)
         {
-            Debug.Log($"[Block] {gameObject.name} clicked.");
+            gridOrigin = newOrigin;
+            transform.position = gridManager.GetWorldPosition(gridOrigin);
+        }
+
+        internal void ReleaseBlock()
+        {
+            foreach (var offset in shapeOffsets)
+            {
+                Vector2Int pos = gridOrigin + offset;
+                gridManager.SetCell(pos.x, pos.y, true); // Occupy cell
+                Debug.DrawRay(gridManager.GetWorldPosition(pos), Vector3.up * 0.3f, Color.green, 1f);
+            }
         }
 
         private void OnDrawGizmosSelected()
@@ -102,6 +71,7 @@ namespace SlowpokeStudio.Block
                 Gizmos.DrawWireCube(gridManager.GetWorldPosition(pos.x, pos.y), Vector3.one * 0.95f);
             }
         }
+
     }
 }
 

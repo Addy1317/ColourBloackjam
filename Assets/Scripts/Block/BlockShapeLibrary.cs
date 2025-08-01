@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace SlowpokeStudio.Block
+namespace SlowpokeStudio.ColourBlocks
 {
     public enum BlockShapeType
     {

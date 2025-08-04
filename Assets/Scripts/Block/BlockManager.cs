@@ -17,16 +17,16 @@ namespace SlowpokeStudio.ColourBlocks
     public class BlockManager : MonoBehaviour
     {
         [Header("References")]
-        public GridManager gridManager;
-        public GameObject tilePrefab;
-        public LevelsDatabaseSO levelsDatabase;
-        public int currentLevelIndex = 0;
+        [SerializeField] internal GridManager gridManager;
+        [SerializeField] internal GameObject tilePrefab;
+        [SerializeField] internal LevelsDatabaseSO levelsDatabase;
+        [SerializeField] internal int currentLevelIndex = 0;
 
         [Header("Block Parent")]
-        public Transform blockContainer;
-        public Material defaultBlockMaterial;
+        [SerializeField] internal Transform blockContainer;
+        [SerializeField] internal Material defaultBlockMaterial;
 
-        public List<Block> activeBlocks = new List<Block>();
+        [SerializeField] internal List<Block> activeBlocks = new List<Block>();
 
         private void Start()
         {
@@ -55,6 +55,7 @@ namespace SlowpokeStudio.ColourBlocks
         {
             GameObject blockGO = CreateBlockParent(shapeData);
             Block block = InitializeBlockData(blockGO, shapeData);
+            activeBlocks.Add(block);
 
             foreach (var offset in block.shapeOffsets)
             {
@@ -79,6 +80,7 @@ namespace SlowpokeStudio.ColourBlocks
 
             Block block = blockGO.AddComponent<Block>();
             block.Initialize(shapeData.color, shapeData.origin, shapeOffsets, gridManager);
+            
 
             return block;
         }
@@ -124,7 +126,7 @@ namespace SlowpokeStudio.ColourBlocks
         {
             if (activeBlocks.Contains(block))
                 activeBlocks.Remove(block);
-
+ 
             Debug.Log($"[BlockManager] Block removed. Remaining: {activeBlocks.Count}");
 
             if (activeBlocks.Count == 0)

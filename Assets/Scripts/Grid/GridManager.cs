@@ -5,15 +5,15 @@ namespace SlowpokeStudio.Grid
     public class GridManager : MonoBehaviour
     {
         [Header("Grid Settings")]
-        public int rows = 10;
-        public int columns = 10;
-        public float cellSize = 1f;
-        public Vector2 originPosition = Vector2.zero;
+        [SerializeField] internal int rows = 10;
+        [SerializeField] internal int columns = 10;
+        [SerializeField] internal float cellSize = 1f;
+        [SerializeField] internal Vector2 originPosition = Vector2.zero;
 
         [Header("Debug Settings")]
-        public bool showGizmos = true;
-        public Color gridColor = Color.gray;
-        public Color occupiedColor = Color.red;
+        [SerializeField] internal bool showGizmos = true;
+        [SerializeField] internal Color gridColor = Color.gray;
+        [SerializeField] internal Color occupiedColor = Color.red;
 
         private bool[,] gridData;
 

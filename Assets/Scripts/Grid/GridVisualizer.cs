@@ -5,13 +5,13 @@ namespace SlowpokeStudio.Grid
     [RequireComponent(typeof(LineRenderer))]
     public class GridVisualizer : MonoBehaviour
     {
-        public int rows = 10;
-        public int columns = 10;
-        public float cellSize = 1f;
-        public Vector2 origin = Vector2.zero;
+        [SerializeField] internal int rows = 10;
+        [SerializeField] internal int columns = 10;
+        [SerializeField] internal float cellSize = 1f;
+        [SerializeField] internal Vector2 origin = Vector2.zero;
 
-        public Material lineMaterial;
-        public float lineWidth = 0.02f;
+        [SerializeField] internal Material lineMaterial;
+        [SerializeField] internal float lineWidth = 0.02f;
 
         private void Start()
         {

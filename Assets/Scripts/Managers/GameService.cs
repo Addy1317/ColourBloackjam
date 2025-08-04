@@ -15,7 +15,6 @@ namespace SlowpokeStudio
         //[SerializeField] internal AudioManager audioManager;
         //[SerializeField] internal BulletManager bulletManager;
         //[SerializeField] internal CurrencyManager currencyManager;       
-        //[SerializeField] internal TowerManager towerManager;
         [SerializeField] internal GridManager gridManager;
         //[SerializeField] internal UIManager uiManager;
         //[SerializeField] internal VFXManager vfxManager;

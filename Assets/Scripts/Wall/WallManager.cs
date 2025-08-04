@@ -14,8 +14,8 @@ namespace SlowpokeStudio.Wall
         }
 
         [Header("Wall Segments in Clockwise Order (Index 0-7)")]
-        public WallSegment[] wallSegments = new WallSegment[8]; // Assign in Inspector
-        private WallSegmentInfo[] currentWallSegments;
+        [SerializeField] internal WallSegment[] wallSegments = new WallSegment[8]; // Assign in Inspector
+        [SerializeField] internal WallSegmentInfo[] currentWallSegments;
 
         public void InitializeWalls(LevelData levelData)
         {

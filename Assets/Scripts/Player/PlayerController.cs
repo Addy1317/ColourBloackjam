@@ -7,8 +7,8 @@ namespace SlowpokeStudio.Player
     public class PlayerController : MonoBehaviour
     {
         [Header("References")]
-        public Camera mainCamera;
-        public GridManager gridManager;
+        [SerializeField] internal Camera mainCamera;
+        [SerializeField] internal GridManager gridManager;
 
         private Block selectedBlock = null;
         private Vector2Int lastGridPosition;
@@ -45,37 +45,7 @@ namespace SlowpokeStudio.Player
                     selectedBlock.CheckWallExit();
                     isDragging = true;
                 }
-
-                /*if (gridPos != lastGridPosition)
-                {
-                    bool canMove = selectedBlock.CanMoveTo(gridPos);
-
-                    if (canMove)
-                    {
-                        selectedBlock.MoveTo(gridPos);
-                        lastGridPosition = gridPos;
-                        selectedBlock.CheckWallExit();
-                    }
-                    else
-                    {
-                        // Allow wall exit if block is moving OUTSIDE grid
-                        Vector2Int cell = gridPos;
-                        if (!selectedBlock.IsInsideGrid(cell))
-                        {
-                            Debug.Log("[PlayerController] Block moving outside grid, allowing move for wall exit.");
-                            selectedBlock.MoveTo(gridPos);
-                            lastGridPosition = gridPos;
-                            selectedBlock.CheckWallExit();
-                        }
-                        else
-                        {
-                            Debug.Log("[PlayerController] Move invalid. Block stays.");
-                        }
-                    }
-                }*/
-
             }
-
 
             if (Input.GetMouseButtonUp(0))
             {

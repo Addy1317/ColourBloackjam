@@ -8,8 +8,8 @@ namespace SlowpokeStudio
     public class GameManager : MonoBehaviour
     {
         [Header("Level Data")]
-        public LevelsDatabaseSO levelsDatabase;
-        public int currentLevelIndex = 0;
+        [SerializeField] internal LevelsDatabaseSO levelsDatabase;
+        [SerializeField] internal int currentLevelIndex = 0;
 
         [Header("Managers")]
         //public WallManager wallManager;

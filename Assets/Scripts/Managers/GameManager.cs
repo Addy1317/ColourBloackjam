@@ -11,10 +11,6 @@ namespace SlowpokeStudio
         [SerializeField] internal LevelsDatabaseSO levelsDatabase;
         [SerializeField] internal int currentLevelIndex = 0;
 
-        [Header("Managers")]
-        //public WallManager wallManager;
-       // public BlockManager blockManager;
-
         private LevelData currentLevelData;
 
         private void Start()
@@ -38,21 +34,23 @@ namespace SlowpokeStudio
             }
 
             currentLevelIndex = levelIndex;
-            currentLevelData = levelsDatabase.levels[levelIndex];
+            LevelData levelData = levelsDatabase.levels[levelIndex];
 
-            Debug.Log($"[GameManager] Loading Level: {currentLevelData.levelName}");
+            Debug.Log($"[GameManager] Loading Level {levelData.levelName} (Index {levelIndex})");
 
             // Clear previous blocks
             GameService.Instance.blockManager.ClearAllBlocks();
 
-            // Initialize wall segments
-            GameService.Instance.wallManager.InitializeWalls(currentLevelData);
+            // Clear activeBlocks list
+            GameService.Instance.blockManager.activeBlocks.Clear();
 
-            // Spawn blocks for this level
-            //blockManager.SpawnBlocksForLevel(currentLevelData);
+            // Initialize wall segments for new level
+            GameService.Instance.wallManager.InitializeWalls(levelData);
 
-            // Future: Initialize goal, timer, move count, etc.
+            // Spawn new blocks for the level
+            GameService.Instance.blockManager.SpawnBlocksForLevel(levelData);
         }
+        
 
         // Optional: Restart current level
         public void RestartLevel()
@@ -64,6 +62,7 @@ namespace SlowpokeStudio
         {
             Debug.Log($"[GameManager] Level {currentLevelIndex} COMPLETE!");
 
+            GameService.Instance.uiManager.ShowLevelCompletePanel(currentLevelIndex + 1, currentLevelIndex + 2);
             // TODO: Show UI panel for level complete
             // TODO: Trigger next level on button press
         }

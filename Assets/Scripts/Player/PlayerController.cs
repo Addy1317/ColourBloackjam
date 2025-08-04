@@ -12,7 +12,6 @@ namespace SlowpokeStudio.Player
 
         private Block selectedBlock = null;
         private Vector2Int lastGridPosition;
-        private bool isDragging = false;
 
         private void Update()
         {

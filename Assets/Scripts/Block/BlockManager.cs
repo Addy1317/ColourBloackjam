@@ -20,7 +20,7 @@ namespace SlowpokeStudio.ColourBlocks
         [SerializeField] internal GridManager gridManager;
         [SerializeField] internal GameObject tilePrefab;
         [SerializeField] internal LevelsDatabaseSO levelsDatabase;
-        [SerializeField] internal int currentLevelIndex = 0;
+       //[SerializeField] internal int currentLevelIndex = 0;
 
         [Header("Block Parent")]
         [SerializeField] internal Transform blockContainer;
@@ -30,23 +30,40 @@ namespace SlowpokeStudio.ColourBlocks
 
         private void Start()
         {
-            SpawnBlocksForLevel();
+            LoadLevel(0);
         }
-
-        public void SpawnBlocksForLevel()
+        public void LoadLevel(int levelIndex)
         {
             if (levelsDatabase == null || levelsDatabase.levels.Length == 0)
             {
-                Debug.LogError("[BlockManager] No levels found in LevelsDatabase.");
+                Debug.LogError("[BlockManager] LevelsDatabase is missing or empty.");
                 return;
             }
 
-            LevelData levelData = levelsDatabase.levels[currentLevelIndex];
+            if (levelIndex < 0 || levelIndex >= levelsDatabase.levels.Length)
+            {
+                Debug.LogError($"[BlockManager] Invalid level index {levelIndex}");
+                return;
+            }
+
+            LevelData levelData = levelsDatabase.levels[levelIndex];
+
+            ClearAllBlocks();
+            SpawnBlocksForLevel(levelData);
+
+            Debug.Log($"[BlockManager] Loaded Level {levelIndex}: {levelData.levelName}");
+        }
+
+        public void SpawnBlocksForLevel(LevelData levelData)
+        {
+            activeBlocks.Clear();
 
             foreach (var shapeData in levelData.blocks)
             {
                 SpawnBlock(shapeData);
             }
+
+            Debug.Log($"[BlockManager] Spawned {activeBlocks.Count} blocks.");
         }
 
         #region Block Spawning Methods

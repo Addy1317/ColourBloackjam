@@ -1,4 +1,4 @@
-using SlowpokeStudio.ColourBlocks;
+﻿using SlowpokeStudio.ColourBlocks;
 using SlowpokeStudio.levelData;
 using UnityEngine;
 
@@ -15,6 +15,7 @@ namespace SlowpokeStudio.Wall
 
         [Header("Wall Segments in Clockwise Order (Index 0-7)")]
         public WallSegment[] wallSegments = new WallSegment[8]; // Assign in Inspector
+        private WallSegmentInfo[] currentWallSegments;
 
         public void InitializeWalls(LevelData levelData)
         {
@@ -28,6 +29,8 @@ namespace SlowpokeStudio.Wall
             {
                 WallSegmentInfo segmentInfo = levelData.wallSegments[i];
                 WallSegment wallSegment = wallSegments[i];
+                currentWallSegments = levelData.wallSegments;
+
 
                 if (wallSegment.wallObject == null || wallSegment.meshRenderer == null)
                 {
@@ -42,6 +45,17 @@ namespace SlowpokeStudio.Wall
 
                 Debug.Log($"[WallManager] Wall {i} color set to {segmentInfo.color} ({wallColor}).");
             }
+        }
+
+        public BlockColor GetWallColor(int index)
+        {
+            if (index < 0 || index >= wallSegments.Length)
+            {
+                Debug.LogError($"[WallManager] Invalid wall index {index}");
+                return BlockColor.Red; // Default fallback
+            }
+
+            return currentWallSegments[index].color; // Store this from Init
         }
 
         private Color GetUnityColor(BlockColor color)

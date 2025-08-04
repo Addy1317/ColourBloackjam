@@ -59,5 +59,13 @@ namespace SlowpokeStudio
         {
             LoadLevel(currentLevelIndex);
         }
+
+        public void LevelComplete()
+        {
+            Debug.Log($"[GameManager] Level {currentLevelIndex} COMPLETE!");
+
+            // TODO: Show UI panel for level complete
+            // TODO: Trigger next level on button press
+        }
     }
 }

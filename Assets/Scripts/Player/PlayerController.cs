@@ -16,12 +16,9 @@ namespace SlowpokeStudio.Player
 
         private void Update()
         {
-            /*            if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject())
-                            return;*/
-
             if (Input.GetMouseButtonDown(0))
             {
-                Debug.Log("[PlayerController] Mouse Click Detected");
+                //Debug.Log("[PlayerController] Mouse Click Detected");
                 TrySelectBlock();
             }
 
@@ -42,12 +39,43 @@ namespace SlowpokeStudio.Player
 
                 if (gridPos != lastGridPosition && selectedBlock.CanMoveTo(gridPos))
                 {
-                    Debug.Log($"[PlayerController] Moving block to: {gridPos}");
+                    //Debug.Log($"[PlayerController] Moving block to: {gridPos}");
                     selectedBlock.MoveTo(gridPos);
                     lastGridPosition = gridPos;
+                    selectedBlock.CheckWallExit();
                     isDragging = true;
                 }
+
+                /*if (gridPos != lastGridPosition)
+                {
+                    bool canMove = selectedBlock.CanMoveTo(gridPos);
+
+                    if (canMove)
+                    {
+                        selectedBlock.MoveTo(gridPos);
+                        lastGridPosition = gridPos;
+                        selectedBlock.CheckWallExit();
+                    }
+                    else
+                    {
+                        // Allow wall exit if block is moving OUTSIDE grid
+                        Vector2Int cell = gridPos;
+                        if (!selectedBlock.IsInsideGrid(cell))
+                        {
+                            Debug.Log("[PlayerController] Block moving outside grid, allowing move for wall exit.");
+                            selectedBlock.MoveTo(gridPos);
+                            lastGridPosition = gridPos;
+                            selectedBlock.CheckWallExit();
+                        }
+                        else
+                        {
+                            Debug.Log("[PlayerController] Move invalid. Block stays.");
+                        }
+                    }
+                }*/
+
             }
+
 
             if (Input.GetMouseButtonUp(0))
             {
@@ -96,9 +124,6 @@ namespace SlowpokeStudio.Player
             return mainCamera.ScreenToWorldPoint(screenPoint);
         }
 
-        // ----------------------
-        // GIZMOS FOR DEBUGGING
-        // ----------------------
         private void OnDrawGizmos()
         {
             if (selectedBlock == null || gridManager == null)

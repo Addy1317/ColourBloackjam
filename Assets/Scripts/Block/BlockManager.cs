@@ -1,5 +1,6 @@
 ﻿using SlowpokeStudio.Grid;
 using SlowpokeStudio.levelData;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace SlowpokeStudio.ColourBlocks
@@ -24,6 +25,8 @@ namespace SlowpokeStudio.ColourBlocks
         [Header("Block Parent")]
         public Transform blockContainer;
         public Material defaultBlockMaterial;
+
+        public List<Block> activeBlocks = new List<Block>();
 
         private void Start()
         {
@@ -117,6 +120,19 @@ namespace SlowpokeStudio.ColourBlocks
             };
         }
 
+        public void RemoveBlock(Block block)
+        {
+            if (activeBlocks.Contains(block))
+                activeBlocks.Remove(block);
+
+            Debug.Log($"[BlockManager] Block removed. Remaining: {activeBlocks.Count}");
+
+            if (activeBlocks.Count == 0)
+            {
+                GameService.Instance.gameManager.LevelComplete(); // Call level complete
+
+            }
+        }
         public void ClearAllBlocks()
         {
             foreach (Transform child in blockContainer)

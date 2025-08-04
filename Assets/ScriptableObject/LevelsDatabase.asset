@@ -17,7 +17,7 @@ MonoBehaviour:
     blocks:
     - origin: {x: 0, y: 0}
       color: 1
-      blockShapeType: 0
+      blockShapeType: 3
     - origin: {x: 5, y: 5}
       color: 4
       blockShapeType: 4

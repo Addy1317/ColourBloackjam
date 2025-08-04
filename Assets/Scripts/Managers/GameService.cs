@@ -1,6 +1,7 @@
 using SlowpokeStudio.ColourBlocks;
 using SlowpokeStudio.Generic;
 using SlowpokeStudio.Grid;
+using SlowpokeStudio.Wall;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.VFX;
@@ -19,6 +20,8 @@ namespace SlowpokeStudio
         //[SerializeField] internal UIManager uiManager;
         //[SerializeField] internal VFXManager vfxManager;
         //[SerializeField] internal EventManager eventManager;
+        [SerializeField] internal WallManager wallManager;
+        [SerializeField] internal BlockManager blockManager;
 
         protected override void Awake()
         {

@@ -6,6 +6,7 @@ namespace SlowpokeStudio.ColourBlocks
 {
     public enum BlockColor
     {
+        None,
         Red,
         Blue,
         Green,

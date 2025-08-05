@@ -1,3 +1,4 @@
+using SlowpokeStudio.Audio;
 using SlowpokeStudio.ColourBlocks;
 using SlowpokeStudio.Generic;
 using SlowpokeStudio.Grid;
@@ -12,8 +13,7 @@ namespace SlowpokeStudio
     {
         [Header("Service")]
         [SerializeField] internal GameManager gameManager;
-        //[SerializeField] internal AudioManager audioManager;
-        //[SerializeField] internal BulletManager bulletManager;
+        [SerializeField] internal AudioManager audioManager;
         //[SerializeField] internal CurrencyManager currencyManager;       
         [SerializeField] internal GridManager gridManager;
         [SerializeField] internal UIManager uiManager;
@@ -42,14 +42,11 @@ namespace SlowpokeStudio
             var services = new Dictionary<string, Object>
             {
             { "GameManager", gameManager },
-            //{ "AudioManager", audioManager },
-            //{ "BulletManager", bulletManager },
-            //{ "CurrencyManager", currencyManager },
-
-           // { "TowerManager", towerManager },
-            { "CustomGridManager", gridManager },
-            //{ "UIManager", uiManager },
-            //{ "VFXManager", vfxManager },
+            { "AudioManager", audioManager },
+            { "GridManager", gridManager },
+            { "WallManager", wallManager },
+            { "UIManager", uiManager },
+            { "BlockManager", blockManager },
             //{ "EventManager", eventManager }
             };
 

@@ -1,6 +1,7 @@
+using SlowpokeStudio.Audio;
+using SlowpokeStudio.ColourBlocks;
 using SlowpokeStudio.Grid;
 using UnityEngine;
-using SlowpokeStudio.ColourBlocks;
 
 namespace SlowpokeStudio.Player
 {
@@ -75,6 +76,7 @@ namespace SlowpokeStudio.Player
                     lastGridPosition = block.gridOrigin;
                     selectedBlock.PrepareForMove();
                     Debug.Log($"[PlayerController] Selected block at {selectedBlock.gridOrigin}");
+                    GameService.Instance.audioManager.PlaySFX(SFXType.OnBlockSelectedSFX);
                 }
                 else
                 {

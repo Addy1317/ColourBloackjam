@@ -1,5 +1,6 @@
 using SlowpokeStudio.ColourBlocks;
 using UnityEngine;
+using SlowpokeStudio.Audio;
 
 namespace SlowpokeStudio.Wall
 {
@@ -32,12 +33,14 @@ namespace SlowpokeStudio.Wall
 
             if (ApproximatelyEqualColors(wallColor, blockColor))
             {
+                GameService.Instance.audioManager.PlaySFX(SFXType.OnBlockPlacedOnWallSFX);
                 Debug.Log("[WallSegment] Color MATCH. Removing Block.");
                 GameService.Instance.blockManager.RemoveBlock(block);
                 Destroy(block.gameObject);
             }
             else
             {
+                GameService.Instance.audioManager.PlaySFX(SFXType.OnBlockPlacedOnWrongWallSFX);
                 Debug.LogWarning("[WallSegment] Color MISMATCH. Block stays.");
             }
         }

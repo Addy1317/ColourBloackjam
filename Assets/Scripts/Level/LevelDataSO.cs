@@ -57,11 +57,12 @@ namespace SlowpokeStudio.levelData
         [Header("Wall Segments")]
         public WallSegmentInfo[] wallSegments = new WallSegmentInfo[8];
 
-
         [Header("Completion")]
         public LevelGoalType goalType;
-        public float timeLimit; // Only used if goalType == TimeLimit
-        public int moveLimit;   // Only used if goalType == MoveLimit
+        public float timeLimit;
+
+        [Header("Rewards")]
+        public int goldReward;
     }
 
     [CreateAssetMenu(fileName = "LevelsDatabase", menuName = "ColorBlockJam/Levels Database")]

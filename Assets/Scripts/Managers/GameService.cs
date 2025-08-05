@@ -1,7 +1,9 @@
 using SlowpokeStudio.Audio;
 using SlowpokeStudio.ColourBlocks;
+using SlowpokeStudio.Currency;
 using SlowpokeStudio.Generic;
 using SlowpokeStudio.Grid;
+using SlowpokeStudio.Timer;
 using SlowpokeStudio.Wall;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,11 +16,11 @@ namespace SlowpokeStudio
         [Header("Service")]
         [SerializeField] internal GameManager gameManager;
         [SerializeField] internal AudioManager audioManager;
-        //[SerializeField] internal CurrencyManager currencyManager;       
+        [SerializeField] internal CurrencyManager currencyManager;       
         [SerializeField] internal GridManager gridManager;
         [SerializeField] internal UIManager uiManager;
         //[SerializeField] internal VFXManager vfxManager;
-        //[SerializeField] internal EventManager eventManager;
+        [SerializeField] internal TimerManager timerManager;
         [SerializeField] internal WallManager wallManager;
         [SerializeField] internal BlockManager blockManager;
 
@@ -47,7 +49,8 @@ namespace SlowpokeStudio
             { "WallManager", wallManager },
             { "UIManager", uiManager },
             { "BlockManager", blockManager },
-            //{ "EventManager", eventManager }
+            { "TimerManager", timerManager },
+            { "CurrencyManager", currencyManager }
             };
 
             foreach (var service in services)

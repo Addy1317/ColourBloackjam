@@ -30,6 +30,11 @@ namespace SlowpokeStudio
         [SerializeField] private TextMeshProUGUI _nextLevelText;
         [SerializeField] private Button _nextButton;
 
+        [Header("Level Failed Panel")]
+        [SerializeField] private GameObject _levelFailedPanel;
+        [SerializeField] private TextMeshProUGUI _failedLevelText;
+        [SerializeField] private Button _retryButton;
+
         private void Start()
         {
             _mainMenuPanel.SetActive(true);
@@ -45,6 +50,8 @@ namespace SlowpokeStudio
             _settingsCloseButton.onClick.AddListener(OnCloseSettingsClicked);
             _nextButton.onClick.AddListener(OnNextLevelClicked);
             _settingsButton.onClick.AddListener(OnToggleSettingsPanel);
+            _levelRestartButton.onClick.AddListener(OnRestartLevelClicked);
+            _retryButton.onClick.AddListener(OnRetryClicked);
         }
 
         private void OnDisable()
@@ -54,6 +61,8 @@ namespace SlowpokeStudio
             _settingsCloseButton.onClick.RemoveListener(OnCloseSettingsClicked);
             _nextButton.onClick.RemoveListener(OnNextLevelClicked);
             _settingsButton.onClick.RemoveListener(OnToggleSettingsPanel);
+            _levelRestartButton.onClick.RemoveListener(OnRestartLevelClicked);
+            _retryButton.onClick.RemoveListener(OnRetryClicked);
         }
 
         public void ShowLevelCompletePanel(int currentLevel, int nextLevel)
@@ -81,6 +90,25 @@ namespace SlowpokeStudio
         {
             _currentLevelText.text = $"{levelNumber}";
             Debug.Log($"[UIManager] Updated Level Text to: Level {levelNumber}");
+        }
+        private void OnRestartLevelClicked()
+        {
+            Debug.Log("[UIManager] Restart button clicked. Reloading current level...");
+            GameService.Instance.gameManager.LoadLevel(GameService.Instance.gameManager.currentLevelIndex);
+        }
+
+        public void ShowLevelFailedPanel(int failedLevel)
+        {
+            _levelFailedPanel.SetActive(true);
+            _failedLevelText.text = $"Level {failedLevel} Failed!";
+            Debug.Log($"[UIManager] Showing Level Failed Panel for Level {failedLevel}");
+        }
+
+        private void OnRetryClicked()
+        {
+            Debug.Log("[UIManager] Retry button clicked. Restarting level...");
+            _levelFailedPanel.SetActive(false);
+            GameService.Instance.gameManager.LoadLevel(GameService.Instance.gameManager.currentLevelIndex);
         }
 
         #region Buttons Methods

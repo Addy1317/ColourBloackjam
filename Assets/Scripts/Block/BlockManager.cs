@@ -142,14 +142,19 @@ namespace SlowpokeStudio.ColourBlocks
         public void RemoveBlock(Block block)
         {
             if (activeBlocks.Contains(block))
+            {
                 activeBlocks.Remove(block);
- 
-            Debug.Log($"[BlockManager] Block removed. Remaining: {activeBlocks.Count}");
+                Debug.Log($"[BlockManager] Block removed. Remaining: {activeBlocks.Count}");
+            }
+            else
+            {
+                Debug.LogWarning("[BlockManager] Tried to remove block that wasn't in activeBlocks.");
+            }
 
             if (activeBlocks.Count == 0)
             {
-                GameService.Instance.gameManager.LevelComplete(); // Call level complete
-
+                Debug.Log("[BlockManager] All blocks cleared. Triggering LevelComplete.");
+                GameService.Instance.gameManager.LevelComplete();
             }
         }
         public void ClearAllBlocks()

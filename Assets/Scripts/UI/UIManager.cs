@@ -1,4 +1,5 @@
-using SlowpokeStudio.Audio;
+﻿using SlowpokeStudio.Audio;
+using SlowpokeStudio.Save;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -16,6 +17,8 @@ namespace SlowpokeStudio
         [Header("Game Settings")]
         [SerializeField] private Button _settingsButton;
         [SerializeField] private GameObject _gameSettingsPanel;
+        [SerializeField] private Button _homeButton;
+        [SerializeField] private Button _quitButton;
         [SerializeField] private Button _settingsCloseButton;
 
         [Header("Game UI")]
@@ -52,6 +55,9 @@ namespace SlowpokeStudio
             _settingsButton.onClick.AddListener(OnToggleSettingsPanel);
             _levelRestartButton.onClick.AddListener(OnRestartLevelClicked);
             _retryButton.onClick.AddListener(OnRetryClicked);
+
+            _homeButton.onClick.AddListener(OnHomeButtonClicked);
+            _quitButton.onClick.AddListener(OnExitGameClicked);
         }
 
         private void OnDisable()
@@ -63,6 +69,9 @@ namespace SlowpokeStudio
             _settingsButton.onClick.RemoveListener(OnToggleSettingsPanel);
             _levelRestartButton.onClick.RemoveListener(OnRestartLevelClicked);
             _retryButton.onClick.RemoveListener(OnRetryClicked);
+
+            _homeButton.onClick.RemoveListener(OnHomeButtonClicked);
+            _quitButton.onClick.RemoveListener(OnExitGameClicked);
         }
 
         public void ShowLevelCompletePanel(int currentLevel, int nextLevel)
@@ -82,8 +91,11 @@ namespace SlowpokeStudio
             Debug.Log("[UIManager] Next Level button clicked.");
             _levelCompletePanel.SetActive(false);
 
-            // Trigger GameManager to load next level
-           GameService.Instance.gameManager.LoadLevel(GameService.Instance.gameManager.currentLevelIndex + 1);
+            int nextLevel = GameService.Instance.gameManager.currentLevelIndex + 1;
+
+            SaveManager.SaveCurrentLevel(nextLevel);  // ✅ Save the next level for restart
+
+            GameService.Instance.gameManager.LoadLevel(nextLevel);
         }
 
         public void UpdateLevelText(int levelNumber)
@@ -91,6 +103,7 @@ namespace SlowpokeStudio
             _currentLevelText.text = $"{levelNumber}";
             Debug.Log($"[UIManager] Updated Level Text to: Level {levelNumber}");
         }
+
         private void OnRestartLevelClicked()
         {
             Debug.Log("[UIManager] Restart button clicked. Reloading current level...");
@@ -121,7 +134,13 @@ namespace SlowpokeStudio
             _gameSettingsPanel.SetActive(false);
             _currentLevelText.transform.parent.gameObject.SetActive(true); // Show gameplay UI group
 
-            GameService.Instance.gameManager.LoadLevel(0); // Start first level
+            //GameService.Instance.gameManager.LoadLevel(0); // Start first level
+            int savedLevel = SaveManager.GetCurrentLevel();
+            int levelToLoad = (savedLevel <= 0) ? 0 : savedLevel;
+
+            Debug.Log($"[UIManager] Loading Level: {levelToLoad}");
+
+            GameService.Instance.gameManager.LoadLevel(levelToLoad);
         }
 
         private void OnExitGameClicked()
@@ -147,9 +166,23 @@ namespace SlowpokeStudio
         public void OnToggleSettingsPanel()
         {
             GameService.Instance.audioManager.PlaySFX(SFXType.OnButtonClickSFX);
-
             _gameSettingsPanel.SetActive(!_gameSettingsPanel.activeSelf);
         }
+
+        private void OnHomeButtonClicked()
+        {
+            Debug.Log("[UIManager] Home button clicked. Returning to Main Menu...");
+
+            _mainMenuPanel.SetActive(true);
+            _gameSettingsPanel.SetActive(false);
+            _levelCompletePanel.SetActive(false);
+            _levelFailedPanel.SetActive(false);
+            _currentLevelText.transform.parent.gameObject.SetActive(false); // Hide gameplay UI
+
+            // Optional: Stop timer and clear current game state
+            GameService.Instance.timerManager.StopTimer();
+        }
+
 
         #endregion
     }

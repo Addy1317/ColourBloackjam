@@ -7,7 +7,8 @@ using SlowpokeStudio.Timer;
 using SlowpokeStudio.Wall;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.VFX;
+using SlowpokeStudio.FX;
+using SlowpokeStudio.Save;
 
 namespace SlowpokeStudio
 {
@@ -19,7 +20,7 @@ namespace SlowpokeStudio
         [SerializeField] internal CurrencyManager currencyManager;       
         [SerializeField] internal GridManager gridManager;
         [SerializeField] internal UIManager uiManager;
-        //[SerializeField] internal VFXManager vfxManager;
+        [SerializeField] internal FXManager fxManager;
         [SerializeField] internal TimerManager timerManager;
         [SerializeField] internal WallManager wallManager;
         [SerializeField] internal BlockManager blockManager;
@@ -50,7 +51,8 @@ namespace SlowpokeStudio
             { "UIManager", uiManager },
             { "BlockManager", blockManager },
             { "TimerManager", timerManager },
-            { "CurrencyManager", currencyManager }
+            { "CurrencyManager", currencyManager },
+            { "FXManager", fxManager }
             };
 
             foreach (var service in services)

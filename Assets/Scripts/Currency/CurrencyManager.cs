@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using SlowpokeStudio.Save;
 
 namespace SlowpokeStudio.Currency
 {
@@ -11,6 +12,7 @@ namespace SlowpokeStudio.Currency
 
         private void Start()
         {
+            totalGold = SaveManager.GetTotalGold();
             Debug.Log($"[CurrencyManager] Initial Gold: {totalGold}");
             UpdateGoldUI();
         }
@@ -23,6 +25,7 @@ namespace SlowpokeStudio.Currency
 
             Debug.Log($"[CurrencyManager] Updated Total Gold: {totalGold}");
             UpdateGoldUI();
+            SaveManager.SaveTotalGold(totalGold);
         }
 
         private void UpdateGoldUI()

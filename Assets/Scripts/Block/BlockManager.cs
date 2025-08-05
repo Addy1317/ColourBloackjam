@@ -1,5 +1,6 @@
 ﻿using SlowpokeStudio.Grid;
 using SlowpokeStudio.levelData;
+using SlowpokeStudio.levelDataInfo;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -19,7 +20,7 @@ namespace SlowpokeStudio.ColourBlocks
         [Header("References")]
         [SerializeField] internal GridManager gridManager;
         [SerializeField] internal GameObject tilePrefab;
-        [SerializeField] internal LevelsDatabaseSO levelsDatabase;
+        [SerializeField] internal LevelDatabaseSO levelDatabaseSO;
        //[SerializeField] internal int currentLevelIndex = 0;
 
         [Header("Block Parent")]
@@ -30,23 +31,30 @@ namespace SlowpokeStudio.ColourBlocks
 
         private void Start()
         {
+            if (levelDatabaseSO == null)
+            {
+                levelDatabaseSO = Resources.Load<LevelDatabaseSO>("LevelData/LevelDatabaseSO");
+                Debug.Log("<color=cyan>[BlockManager]</color> Loaded LevelsDatabaseSO from Resources.");
+            }
+
             LoadLevel(0);
         }
+
         public void LoadLevel(int levelIndex)
         {
-            if (levelsDatabase == null || levelsDatabase.levels.Length == 0)
+            if (levelDatabaseSO == null || levelDatabaseSO.levels.Length == 0)
             {
-                Debug.LogError("[BlockManager] LevelsDatabase is missing or empty.");
+                Debug.LogError("[BlockManager] LevelDatabase is missing or empty.");
                 return;
             }
 
-            if (levelIndex < 0 || levelIndex >= levelsDatabase.levels.Length)
+            if (levelIndex < 0 || levelIndex >= levelDatabaseSO.levels.Length)
             {
                 Debug.LogError($"[BlockManager] Invalid level index {levelIndex}");
                 return;
             }
 
-            LevelData levelData = levelsDatabase.levels[levelIndex];
+            LevelData levelData = levelDatabaseSO.levels[levelIndex];
 
             ClearAllBlocks();
             SpawnBlocksForLevel(levelData);

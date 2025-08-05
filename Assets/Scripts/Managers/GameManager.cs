@@ -1,45 +1,62 @@
-using SlowpokeStudio.Currency;
 using SlowpokeStudio.levelData;
 using UnityEngine;
+using SlowpokeStudio.Save;
+using SlowpokeStudio.levelDataInfo;
 
 namespace SlowpokeStudio
 {
     public class GameManager : MonoBehaviour
     {
         [Header("Level Data")]
-        [SerializeField] internal LevelsDatabaseSO levelsDatabase;
+        [SerializeField] internal LevelDatabaseSO levelDatabaseSO;
         [SerializeField] internal int currentLevelIndex = 0;
+        [SerializeField] public int ActualGameLevelIndex => currentLevelIndex + 1;
 
         private LevelData currentLevelData;
         private bool levelCompleteTriggered = false;
 
+        private void Awake()
+        {
+            if (levelDatabaseSO == null)
+            {
+                levelDatabaseSO = Resources.Load<LevelDatabaseSO>("LevelData/LevelDatabaseSO");
+                Debug.Log("<color=cyan>[GameManager]</color> Loaded LevelsDatabaseSO from Resources.");
+            }
+
+            currentLevelIndex = SaveManager.GetCurrentLevel();
+            Debug.Log("<color=cyan>[GameManager]</color> Loaded Current Level: " + currentLevelIndex);
+        }
+
         private void Start()
         {
             LoadLevel(currentLevelIndex);
-            GameService.Instance.wallManager.InitializeWalls(levelsDatabase.levels[currentLevelIndex]);
+            //GameService.Instance.wallManager.InitializeWalls(levelsDatabase.levels[currentLevelIndex]);
         }
 
         public void LoadLevel(int levelIndex)
         {
             levelCompleteTriggered = false;
 
-            if (levelsDatabase == null || levelsDatabase.levels.Length == 0)
+            if (levelDatabaseSO == null || levelDatabaseSO.levels.Length == 0)
             {
-                Debug.LogError("[GameManager] LevelsDatabase is empty or missing.");
-                return;
+                Debug.LogError("<color=red>[GameManager]</color> LevelsDatabase is empty or missing."); return;
             }
 
-            if (levelIndex < 0 || levelIndex >= levelsDatabase.levels.Length)
+            if (levelIndex < 0 || levelIndex >= levelDatabaseSO.levels.Length)
             {
-                Debug.LogError($"[GameManager] Invalid level index {levelIndex}.");
-                return;
+                Debug.LogError("<color=red>[GameManager]</color> Invalid level index " + levelIndex); return;
             }
 
             currentLevelIndex = levelIndex;
-            LevelData levelData = levelsDatabase.levels[levelIndex];
-            GameService.Instance.timerManager.StartTimer(levelData.timeLimit); // Set in seconds
+            SaveManager.SaveCurrentLevel(currentLevelIndex);
 
-            Debug.Log($"[GameManager] Loading Level {levelData.levelName} (Index {levelIndex})");
+            LevelData levelData = levelDatabaseSO.levels[levelIndex];
+
+            GameService.Instance.blockManager.levelDatabaseSO = levelDatabaseSO;
+
+            GameService.Instance.timerManager.StartTimer(levelData.timeLimit);
+
+            Debug.Log("<color=cyan>[GameManager]</color> Loading Level " + levelData.levelName + " (Index " + levelIndex + ")");
 
             // Clear previous blocks
             GameService.Instance.blockManager.ClearAllBlocks();
@@ -60,21 +77,20 @@ namespace SlowpokeStudio
         {
             if (levelCompleteTriggered)
             {
-                Debug.LogWarning("[GameManager] LevelComplete called again. Ignored.");
-                return;
+                Debug.LogWarning("<color=yellow>[GameManager]</color> LevelComplete called again. Ignored."); return;
             }
             levelCompleteTriggered = true;
 
-            LevelData levelData = levelsDatabase.levels[currentLevelIndex];
+            LevelData levelData = levelDatabaseSO.levels[currentLevelIndex];
             int reward = levelData.goldReward;
 
-            Debug.Log($"[GameManager] LevelComplete Triggered. Reward: {reward}");
+            Debug.Log("<color=green>[GameManager]</color> LevelComplete Triggered. Reward: " + reward);
 
             GameService.Instance.currencyManager.AddGold(reward);
+            SaveManager.SaveHighestLevel(currentLevelIndex + 1);
 
-            Debug.Log($"[GameManager] Gold Added. Current Total (from CurrencyManager): {GameService.Instance.currencyManager.TotalGoldDebug()}");
-
-            Debug.Log($"[GameManager] Level {currentLevelIndex} COMPLETE!");
+            Debug.Log("<color=green>[GameManager]</color> Gold Added. Current Total (from CurrencyManager): " + GameService.Instance.currencyManager.TotalGoldDebug());
+            Debug.Log("<color=green>[GameManager]</color> Level " + currentLevelIndex + " COMPLETE!");
 
             GameService.Instance.uiManager.ShowLevelCompletePanel(currentLevelIndex + 1, currentLevelIndex + 2);
         }

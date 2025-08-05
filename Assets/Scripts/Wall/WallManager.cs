@@ -1,5 +1,6 @@
 ﻿using SlowpokeStudio.ColourBlocks;
 using SlowpokeStudio.levelData;
+using SlowpokeStudio.levelDataInfo;
 using UnityEngine;
 
 namespace SlowpokeStudio.Wall

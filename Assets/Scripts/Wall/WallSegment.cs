@@ -41,6 +41,7 @@ namespace SlowpokeStudio.Wall
             else
             {
                 GameService.Instance.audioManager.PlaySFX(SFXType.OnBlockPlacedOnWrongWallSFX);
+                //GameService.Instance.fxManager.ShakeCameraEffect();
                 Debug.LogWarning("[WallSegment] Color MISMATCH. Block stays.");
             }
         }

@@ -49,6 +49,8 @@ namespace SlowpokeStudio
 
             // Spawn new blocks for the level
             GameService.Instance.blockManager.SpawnBlocksForLevel(levelData);
+
+            GameService.Instance.uiManager.UpdateLevelText(levelIndex + 1);
         }
         
 

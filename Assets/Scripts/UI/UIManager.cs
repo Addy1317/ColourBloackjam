@@ -77,6 +77,12 @@ namespace SlowpokeStudio
            GameService.Instance.gameManager.LoadLevel(GameService.Instance.gameManager.currentLevelIndex + 1);
         }
 
+        public void UpdateLevelText(int levelNumber)
+        {
+            _currentLevelText.text = $"{levelNumber}";
+            Debug.Log($"[UIManager] Updated Level Text to: Level {levelNumber}");
+        }
+
         #region Buttons Methods
 
         private void OnStartGameClicked()

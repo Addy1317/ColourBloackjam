@@ -9,6 +9,7 @@ namespace SlowpokeStudio.Player
         [Header("References")]
         [SerializeField] internal Camera mainCamera;
         [SerializeField] internal GridManager gridManager;
+        private bool isDragging = false;
 
         private Block selectedBlock = null;
         private Vector2Int lastGridPosition;
